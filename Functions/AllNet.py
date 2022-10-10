@@ -9,5 +9,4 @@ def AllNet(DFind,Mat):
             c=False
         else:
             AllPosNet=np.append(AllPosNet,np.array(FragNet(DFind,Lv)),axis=0)
-    return AllPosNet
-#test    
+    return AllPosNet    

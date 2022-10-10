@@ -1,3 +1,4 @@
+#Checking if I keep track of everything
 def Formula(DF):
     AllFor=[]
     for x in DF.index:
