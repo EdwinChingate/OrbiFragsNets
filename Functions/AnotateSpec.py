@@ -9,8 +9,11 @@ from GradeNet import *
 import numpy as np
 from ShowDF import *
 import datetime
+import os
 def AnotateSpec(experiment,MM,RT,name='',Save=True,ExpectedV={'K':1,'Na':1,'C13':1,'C':40,'Cl':1,'S34':1,'S':3,'P':1,'F':1,'O':20,'N':20,'H':100}):
     DF=FragSpacePos(experiment=experiment,MM=MM,RT=RT,ExpectedV=ExpectedV)
+    print(os.getcwd())
+    #ShowDF(DF)
     if name=='':
     	name=str(datetime.datetime.now())[:19].replace(' ','_')
     #ShowDF(DF)

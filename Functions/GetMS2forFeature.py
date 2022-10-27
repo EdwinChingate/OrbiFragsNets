@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from NewReduceSpecFindPeaks import *
-def GetMS2forFeature(experiment,MM,RT,error=10,errorT=5):
+def GetMS2forFeature(experiment,MM,RT,error=5,errorT=3):
     c1=0
     sN=0
     while True:
@@ -17,6 +17,7 @@ def GetMS2forFeature(experiment,MM,RT,error=10,errorT=5):
                       #  print(abs(spectrum.getRT()-RT))
                         if sN==0:
                             Peak=peaks.copy()
+                            
                         else:
                             Peak=np.append(Peak,peaks,axis=0)
                         sN+=1
