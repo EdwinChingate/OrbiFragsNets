@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os
 def SolveSpace(TargetM,Mat=[],Bot=0,p=0,vec=np.zeros(12),Top='Start',MassVec=0,AtomicSubscripts=0):       
     if Top=='Start':
         home=os.getcwd()
