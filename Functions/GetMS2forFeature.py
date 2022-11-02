@@ -6,8 +6,7 @@ def GetMS2forFeature(experiment,MM,RT,error=5,errorT=3):
     sN=0
     while True:
         try:
-            for spectrum in experiment:
-                
+            for spectrum in experiment:                
                 MSl=spectrum.getMSLevel()
                 #print(MSl)
                 if MSl==2:
@@ -27,10 +26,10 @@ def GetMS2forFeature(experiment,MM,RT,error=5,errorT=3):
             PeakN=pd.DataFrame(Peak,columns=['m/z','Intensity'])
             PeakN=PeakN.sort_values(by='m/z')
            # print('CP')
-            P=NewReduceSpecFindPeaks(peaks=PeakN)
+            SpectrumFragments=NewReduceSpecFindPeaks(peaks=PeakN)
            # print('CP2')            
             break
         except:
             print('Error extracting MS2')
             return 0
-    return P
+    return SpectrumFragments

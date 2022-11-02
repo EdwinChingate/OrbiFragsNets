@@ -10,13 +10,8 @@ import numpy as np
 from ShowDF import *
 import datetime
 import os
-def AnotateSpec(experiment,MM,RT,name='',Save=True,ExpectedV={'K':1,'Na':1,'C13':1,'C':40,'Cl':1,'S34':1,'S':3,'P':1,'F':1,'O':20,'N':20,'H':100}):
+def AnotateSpec(experiment,MM,RT,SaveAnnotation=True):
     DF=FragSpacePos(experiment=experiment,MM=MM,RT=RT,ExpectedV=ExpectedV)
-    print(os.getcwd())
-    #ShowDF(DF)
-    if name=='':
-    	name=str(datetime.datetime.now())[:19].replace(' ','_')
-    #ShowDF(DF)
     if type(DF)==type(0):
         return 0
     D=SelfConsistFrag(DF)
@@ -35,6 +30,7 @@ def AnotateSpec(experiment,MM,RT,name='',Save=True,ExpectedV={'K':1,'Na':1,'C13'
     locC=np.where((vt[locF,:-1][0]>-1))
     AnSpec=DF.loc[vt[locF,locC][0]]
     AnSpec.index=AnSpec['Formula']
-    if Save:
+    if SaveAnnotation:
+    	name=str(datetime.datetime.now())[:19].replace(' ','_')
     	AnSpec.to_csv(name+'.csv')
     return AnSpec

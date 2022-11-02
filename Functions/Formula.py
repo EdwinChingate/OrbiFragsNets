@@ -13,4 +13,4 @@ def Formula(DF):
    # display(DF)
     #print(AllFor)
     DF['Formula']=AllFor 
-    #return AllFor
+    return DF

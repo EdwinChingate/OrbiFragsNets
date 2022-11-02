@@ -14,7 +14,7 @@ def FitFragment(DF,D,Frag1,Frag2,Mat=[]):
    # Tres=max(Tre1,Tre2)
     Tres=10
     #print(MT)
-    re= MoleculesCand(TargetM=MT,ExpectedV={'K':0,'Na':0,'C13':0,'C':15,'Cl':0,'S34':0,'S':1,'P':0,'F':0,'O':6,'N':5,'H':15},Tres=Tres)    
+    re= MoleculesCand(TargetM=MT,Tres=Tres)    
     if type(re)==type(0):
         return D
   #  print(MT)
