@@ -1,7 +1,7 @@
 from GetMS2forFeature import *
 from MoleculesCand import *
 import numpy as np
-def FragSpacePos(experiment,MM,RT,ExpectedV={'K':1,'Na':1,'C13':1,'C':40,'Cl':1,'S34':1,'S':3,'P':1,'F':1,'O':20,'N':20,'H':100}):
+def FragSpacePos(experiment,MM,RT):
     Mat=GetMS2forFeature(experiment=experiment,MM=MM,RT=RT)
   #  ShowDF(Mat)
     if type(Mat)==type(0):
@@ -14,7 +14,7 @@ def FragSpacePos(experiment,MM,RT,ExpectedV={'K':1,'Na':1,'C13':1,'C':40,'Cl':1,
         x=Mat.loc[ind]['Mean_m/z']
         RelInt=Mat.loc[ind]['RelInt']        
         Confidence=Mat.loc[ind]['ConfidenceInterval(ppm)']
-        re=MoleculesCand(TargetM=x,RelInt=RelInt,ExpectedV=ExpectedV,Tres=Confidence)
+        re=MoleculesCand(TargetM=x,RelInt=RelInt,Tres=Confidence)
        # ShowDF(re)
        # print(re)
         if type(re)!=type(0):   

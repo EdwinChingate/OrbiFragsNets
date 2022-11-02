@@ -14,4 +14,5 @@ def WelchTest(Ds1,Ds2,alpha=0.05):
         val=True
     else:
         val=False
-    return [val, t, tref, p]
+    WelchVec=[val, t, tref, p]
+    return WelchVec

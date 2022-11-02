@@ -11,4 +11,5 @@ def FragNetIntRes(DF,MinTres=90):
     MatInt=np.array(FragNet(FragIntFake,OnesV))
     IntExplained=np.matmul(MatInt[:,:-1],IntVec)
     select=np.where(IntExplained>MinTres)[0]
-    return MatInt[select,:]
+    FeasibleNetworks=MatInt[select,:]
+    return FeasibleNetworks

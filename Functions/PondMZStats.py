@@ -21,5 +21,5 @@ def PondMZStats(peaks,alpha=0.01):
     tref=stats.t.interval(1-alpha, l-1)[1]
     Std=np.sqrt(Varian)
     #print(peaks)
-   # print('\n')
-    return [AverageMZ,Std,l,tref*Std/np.sqrt(l),tref*Std/np.sqrt(l)/AverageMZ*1e6,MostIntFrag,SumIntens]   
+    VecStats=[AverageMZ,Std,l,tref*Std/np.sqrt(l),tref*Std/np.sqrt(l)/AverageMZ*1e6,MostIntFrag,SumIntens]      
+    return VecStats

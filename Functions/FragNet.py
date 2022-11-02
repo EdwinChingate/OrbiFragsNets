@@ -1,6 +1,7 @@
 import numpy as np
 def FragNet(DFind,Lv,p=0,ip=0,vec=[],Mat=[],start=True):
-    PosLoc=np.where(Lv==1)[0]
+#Lv contains all of the possible values that an element in vec can take. When it's called from FragNetIntRes it just contemplates the possibility of using one fragment or not, but when it's called from AllNet it cantemplates all the possible ions that could explain a specific fragment.
+    PosLoc=np.where(Lv==1)[0] 
     LMF=len(PosLoc)
     LiMF=len(DFind[PosLoc[p]])    
     #print('p:',p,'ip:',ip)    
