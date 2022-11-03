@@ -20,6 +20,8 @@ def PondMZStats(peaks,alpha=0.01):
     Varian=sum(RelativeInt*(peaks[:,0]-AverageMZ)**2)*l/(l-1)
     tref=stats.t.interval(1-alpha, l-1)[1]
     Std=np.sqrt(Varian)
+    ConfidenceIntervalDa=tref*Std/np.sqrt(l)
+    ConfidenceInterval=tref*Std/np.sqrt(l)/AverageMZ*1e6
     #print(peaks)
-    VecStats=[AverageMZ,Std,l,tref*Std/np.sqrt(l),tref*Std/np.sqrt(l)/AverageMZ*1e6,MostIntFrag,SumIntens]      
+    VecStats=[AverageMZ,Std,l,ConfidenceIntervalDa,ConfidenceInterval,MostIntFrag,SumIntens]      
     return VecStats

@@ -71,6 +71,6 @@ def NewReduceSpecFindPeaks(peaks,MinInt=5e3,NoiseInt=1e2,DischargeT=80,RelDis=2,
     NewSpec=np.array(NewSpec)  
     Discharge=np.where((NewSpec[:,2]>MinPoint)&(NewSpec[:,4]<DischargeT)&(NewSpec[:,6]/max(NewSpec[:,6])*100>RelDis))[0]      
     NewSpec=NewSpec[Discharge,:]
-    SpectrumFragments=pd.DataFrame(NewSpec,columns=['Mean_m/z','Std_m/z','DataPoints','ConfidenceInterval','ConfidenceInterval(ppm)','MostIntense_m/z','TotalIntensity','MinID','MaxID','t_value','t_ref','p'])
-    SpectrumFragments['RelInt']=SpectrumFragments['TotalIntensity']/sum(SpectrumFragments['TotalIntensity'])*100
-    return SpectrumFragments
+    SpectrumPeaks=pd.DataFrame(NewSpec,columns=['Mean_m/z','Std_m/z','DataPoints','ConfidenceInterval','ConfidenceInterval(ppm)','MostIntense_m/z','TotalIntensity','MinID','MaxID','t_value','t_ref','p'])
+    SpectrumPeaks['RelInt']=SpectrumPeaks['TotalIntensity']/sum(SpectrumPeaks['TotalIntensity'])*100
+    return SpectrumPeaks

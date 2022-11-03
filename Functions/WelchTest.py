@@ -1,18 +1,18 @@
 from scipy.stats import t
 from scipy import stats
 import numpy as np
-def WelchTest(Ds1,Ds2,alpha=0.05): 
+def WelchTest(PeakData1,PeakData2,alpha=0.05): 
     #Statistical test to check if two fragments are different
-    #Ds1 and Ds2 are vectors that summarize the information on the samples [average,std,size]
-    s1=Ds1[1]/np.sqrt(Ds1[2])
-    s2=Ds2[1]/np.sqrt(Ds2[2])
-    t=abs(Ds1[0]-Ds2[0])/np.sqrt(s1**2+s2**2)
-    df=(Ds1[1]**2/Ds1[2]+Ds2[1]**2/Ds2[2])**2/(Ds1[1]**4/((Ds1[2]-1)*Ds1[2]**2)+Ds2[1]**4/((Ds2[2]-1)*Ds2[2]**2))
-    tref=stats.t.interval(1-alpha, df)[1]
-    p=0 #I need to include the calculation of the p-value
+    #PeakData1 and PeakData2 are vectors that summarize the information on the samples [average,std,size]
+    stError1=PeakData1[1]/np.sqrt(PeakData1[2])
+    stError2=PeakData2[1]/np.sqrt(PeakData2[2])
+    t=abs(PeakData1[0]-PeakData2[0])/np.sqrt(stError1**2+stError2**2)
+    FreedomDegrees=(PeakData1[1]**2/PeakData1[2]+PeakData2[1]**2/PeakData2[2])**2/(PeakData1[1]**4/((PeakData1[2]-1)*PeakData1[2]**2)+PeakData2[1]**4/((PeakData2[2]-1)*PeakData2[2]**2))
+    tref=stats.t.interval(1-alpha, FreedomDegrees)[1]
+    pValue=0 #I need to include the calculation of the p-value
     if t>tref:
-        val=True
+        Approval=True
     else:
-        val=False
-    WelchVec=[val, t, tref, p]
+        Approval=False
+    WelchVec=[Approval, t, tref, pValue]
     return WelchVec

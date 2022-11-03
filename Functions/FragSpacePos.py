@@ -1,30 +1,30 @@
 from GetMS2forFeature import *
 from MoleculesCand import *
 import numpy as np
-def FragSpacePos(experiment,MM,RT):
-    Mat=GetMS2forFeature(experiment=experiment,MM=MM,RT=RT)
-  #  ShowDF(Mat)
-    if type(Mat)==type(0):
+def FragSpacePos(DataSetName,PrecursorFragmentMass,RT):
+    SpectrumPeaks=GetMS2forFeature(DataSetName=DataSetName,PrecursorFragmentMass=PrecursorFragmentMass,RT=RT)
+  #  ShowDF(SpectrumPeaks)
+    if type(SpectrumPeaks)==type(0):
         return 0
-  #  ShowDF(Mat)
+  #  ShowDF(SpectrumPeaks)
     c=0
-    L=len(Mat)   
-    DF=0
-    for ind in Mat.index:
-        x=Mat.loc[ind]['Mean_m/z']
-        RelInt=Mat.loc[ind]['RelInt']        
-        Confidence=Mat.loc[ind]['ConfidenceInterval(ppm)']
-        re=MoleculesCand(TargetM=x,RelInt=RelInt,Tres=Confidence)
+    L=len(SpectrumPeaks)   
+    AllPeaksAllPossibleFragments=0
+    for ind in SpectrumPeaks.index:
+        x=SpectrumPeaks.loc[ind]['Mean_m/z']
+        RelInt=SpectrumPeaks.loc[ind]['RelInt']        
+        ConfidenceInterval=SpectrumPeaks.loc[ind]['ConfidenceInterval(ppm)']
+        SpacePossibleFragmentsDF=MoleculesCand(PeakMass=x,RelInt=RelInt,ConfidenceInterval=ConfidenceInterval)
        # ShowDF(re)
        # print(re)
         if type(re)!=type(0):   
             if c==0:
-                DF=re
+                AllPeaksAllPossibleFragments=SpacePossibleFragmentsDF
             else:
-                DF=DF.append(re)
+                AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments.append(SpacePossibleFragmentsDF)
             c+=1
-    if type(DF)==type(0):
+    if type(AllPeaksAllPossibleFragments)==type(0):
         print('error')
         return 0
-    DF.index=np.arange(len(DF.index))
-    return DF
+    AllPeaksAllPossibleFragments.index=np.arange(len(AllPeaksAllPossibleFragments.index))
+    return AllPeaksAllPossibleFragments

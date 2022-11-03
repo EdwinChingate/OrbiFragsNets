@@ -1,10 +1,10 @@
 import numpy as np
-def IndexLists(DF):
+def IndexLists(AllPeaksPossibleFragments):
     L=[]
-    MF=list(DF.groupby(['Measured_m/z']).groups.keys())
+    MF=list(AllPeaksPossibleFragments.groupby(['Measured_m/z']).groups.keys())
     for x in MF:
-        IFDFloc=DF['Measured_m/z']==x
-        IFDF=DF.loc[IFDFloc]
+        IFDFloc=AllPeaksPossibleFragments['Measured_m/z']==x
+        IFDF=AllPeaksPossibleFragments.loc[IFDFloc]
         vecind=np.array(IFDF.index)
       #  vecind=np.append(vecind)
         L.append(vecind)

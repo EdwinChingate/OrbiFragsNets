@@ -2,10 +2,10 @@ import numpy as np
 from GetIntVec import *
 from IntPos import *
 from FragNet import *
-def FragNetIntRes(DF,MinTres=90):
-    IntVec=GetIntVec(DF)
+def FragNetIntRes(AllPeaksPossibleFragments,MinTres=90):
+    IntVec=GetIntVec(AllPeaksPossibleFragments)
    # print(IntVec)
-    FragIntFake=IntPos(DF)
+    FragIntFake=IntPos(AllPeaksPossibleFragments)
     LIntVec=len(IntVec)
     OnesV=np.ones(LIntVec)
     MatInt=np.array(FragNet(FragIntFake,OnesV))
