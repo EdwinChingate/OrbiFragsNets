@@ -1,10 +1,10 @@
 #Checking if I keep track of everything
-def Formula(DF):
+def Formula(PossibleFragments):
     AllFor=[]
-    for x in DF.index:
+    for x in PossibleFragments.index:
         For=''
-        for y in DF.columns:
-            v=DF.loc[x,y]        
+        for y in PossibleFragments.columns:
+            v=PossibleFragments.loc[x,y]        
             if v>1:
                 For+=y+str(int(v))
             elif v>0:
@@ -12,5 +12,5 @@ def Formula(DF):
         AllFor.append(For)
    # display(DF)
     #print(AllFor)
-    DF['Formula']=AllFor 
-    return DF
+    PossibleFragments['Formula']=AllFor 
+    return PossibleFragments

@@ -13,22 +13,24 @@ def AnnotateSpec(DataSetName,PrecursorFragmentMass,RT,SaveAnnotation=True):
     AllPeaksAllPossibleFragments=FragSpacePos(DataSetName=DataSetName,PrecursorFragmentMass=PrecursorFragmentMass,RT=RT)
     if type(AllPeaksAllPossibleFragments)==type(0):
         return 0
-    D=SelfConsistFrag(AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments)
+    AdjacencyMatDF=SelfConsistFrag(AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments)
    # ShowDF(D)
-    Vsum=np.array(D.sum())
+    FragmentGrade=np.array(AdjacencyMatDF.sum())
   #  print(Vsum)
-    minC=MinEdges(AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments,Vsum)
-    ve=np.where(Vsum>minC)[0] #Quite sensible parameter   
+    MinGrade=MinEdges(AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments,FragmentGrade=FragmentGrade)
+    ve=np.where(FragmentGrade>MinGrade)[0] #Quite sensible parameter   
     AllPeaksPossibleFragments=AllPeaksAllPossibleFragments.loc[ve]
   
-    Mat=FragNetIntRes(AllPeaksPossibleFragments=AllPeaksPossibleFragments,MinTres=80)
-    DFind=IndexLists(AllPeaksPossibleFragments=AllPeaksPossibleFragments)  
+  
+  
+    FeasiblePeaksNetworks=FragNetIntRes(AllPeaksPossibleFragments=AllPeaksPossibleFragments)
+    ListofFragmentsinListofPeaks=IndexLists(AllPeaksPossibleFragments=AllPeaksPossibleFragments)  
    # print(len(Mat))
-    AllPosNet=AllNet(DFind,Mat)
-    vt=GradeNet(AllPosNet.copy(),D)
-    locF=np.where(vt[:,-1]==max(vt[:,-1]))[0]
-    locC=np.where((vt[locF,:-1][0]>-1))
-    AnSpec=AllPeaksAllPossibleFragments.loc[vt[locF,locC][0]]
+    AllFragNet=AllNet(ListofFragmentsinListofPeaks=ListofFragmentsinListofPeaks,FeasiblePeaksNetworks=FeasiblePeaksNetworks)
+    AllFragNet=GradeNet(AllFragNet=AllFragNet,AdjacencyMatDF=AdjacencyMatDF)
+    locF=np.where(AllFragNet[:,-1]==max(AllFragNet[:,-1]))[0]
+    locC=np.where((AllFragNet[locF,:-1][0]>-1))
+    AnSpec=AllPeaksPossibleFragments.loc[AllFragNet[locF,locC][0]]
     AnSpec.index=AnSpec['Formula']
     if SaveAnnotation:
     	name=DataSetName+'_'+str(MM)+'_'+str(RT)+'_'+str(datetime.datetime.now())[:19].replace(' ','_')

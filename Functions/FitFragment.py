@@ -1,33 +1,24 @@
 import numpy as np
 from MoleculesCand import *
-def FitFragment(AllPeaksAllPossibleFragments,D,Frag1,Frag2,Mat=[]):
-    MT=abs(Frag2-Frag1)
-    LocId1=AllPeaksAllPossibleFragments['Measured_m/z']==Frag1
-    DF1=AllPeaksAllPossibleFragments.loc[LocId1]
-    LocId2=AllPeaksAllPossibleFragments['Measured_m/z']==Frag2
-    DF2=AllPeaksAllPossibleFragments.loc[LocId2]
-   # print(Frag1,Frag2)
-    Tre1=AllPeaksAllPossibleFragments.loc[DF1.index[0]]['ConfidenceInterval(ppm)']
-    Tre2=AllPeaksAllPossibleFragments.loc[DF2.index[0]]['ConfidenceInterval(ppm)']
-    #Tre2=DF.loc[LocId2,'ConfidenceInterval(ppm)']
-  #  print('l',Tre1,Tre2)
-   # Tres=max(Tre1,Tre2)
+def FitFragment(AllPeaksAllPossibleFragments,AdjacencyMatDF,PeakMass1,PeakMass2):
+    PeakMassDif=abs(PeakMass2-PeakMass1)
+    LocId1=AllPeaksAllPossibleFragments['Measured_m/z']==PeakMass1
+    Peak1AllPossibleFragments=AllPeaksAllPossibleFragments.loc[LocId1]
+    LocId2=AllPeaksAllPossibleFragments['Measured_m/z']==PeakMass2
+    Peak2AllPossibleFragments=AllPeaksAllPossibleFragments.loc[LocId2]
+    Tre1=AllPeaksAllPossibleFragments.loc[Peak1AllPossibleFragments.index[0]]['ConfidenceInterval(ppm)']
+    Tre2=AllPeaksAllPossibleFragments.loc[Peak2AllPossibleFragments.index[0]]['ConfidenceInterval(ppm)']
     ConfidenceInterval=10
-    #print(MT)
-    SpacePossibleFragmentsDF= MoleculesCand(PeakMass=MT,ConfidenceInterval=ConfidenceInterval)    
+    PossibleFragments=MoleculesCand(PeakMass=PeakMassDif,ConfidenceInterval=ConfidenceInterval)    
     if type(re)==type(0):
-        return D
-  #  print(MT)
-   # ShowDF(re)  
-    
-    for it1 in DF1.index:
+        return AdjacencyMatDF
+    for it1 in Peak1AllPossibleFragments.index:
         V1=np.array(AllPeaksAllPossibleFragments.loc[it1][['K','Na','C13','C','Cl','S43','S','P','F','O','N','H']])
-        for it2 in DF2.index:
+        for it2 in Peak2AllPossibleFragments.index:
             V2=np.array(AllPeaksAllPossibleFragments.loc[it2][['K','Na','C13','C','Cl','S43','S','P','F','O','N','H']])            
-            for z in SpacePossibleFragmentsDF.index:
-                Vz=np.array(SpacePossibleFragmentsDF.loc[z][['K','Na','C13','C','Cl','S43','S','P','F','O','N','H']])   
+            for z in PossibleFragments.index:
+                Vz=np.array(PossibleFragments.loc[z][['K','Na','C13','C','Cl','S43','S','P','F','O','N','H']])   
                 if int(sum(abs(abs(V2-V1)-Vz)))==0:
-                    D.loc[it1][it2]=1
-                    D.loc[it2][it1]=1
-                    Mat.append(Vz)
-    return D
+                    AdjacencyMatDF.loc[it1][it2]=1
+                    AdjacencyMatDF.loc[it2][it1]=1
+    return AdjacencyMatDF

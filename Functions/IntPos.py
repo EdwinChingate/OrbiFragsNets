@@ -1,6 +1,6 @@
-def IntPos(DF):
-    L=[]
-    MF=list(DF.groupby(['Measured_m/z']).groups.keys())
+def IntPos(AllPeaksPossibleFragments):
+    UseListofPeaks=[]
+    MF=list(AllPeaksPossibleFragments.groupby(['Measured_m/z']).groups.keys())
     for x in MF:
-        L.append([0,1])
-    return L
+        UseListofPeaks.append([0,1])
+    return UseListofPeaks

@@ -1,12 +1,13 @@
 import numpy as np
 from FragNet import *
-def AllNet(DFind,Mat):
+def AllNet(ListofFragmentsinListofPeaks,FeasiblePeaksNetworks):
     c=True
-    for x in Mat:
-        Lv=x[:-1]
+    for network in FeasiblePeaksNetworks:
+        PeaksNetwork=network[:-1]
+        FragmentsNetworks=FragNet(ListofFragmentsinListofPeaks=ListofFragmentsinListofPeaks,PeaksNetwork=PeaksNetwork)
         if c:
-            AllPosNet=np.array(FragNet(DFind,Lv)) 
+            AllFragNet=np.array(FragmentsNetworks) 
             c=False
         else:
-            AllPosNet=np.append(AllPosNet,np.array(FragNet(DFind,Lv)),axis=0)
-    return AllPosNet    
+            AllFragNet=np.append(AllPosNet,np.array(FragmentsNetworks),axis=0)
+    return AllFragNet    

@@ -14,14 +14,14 @@ def FragSpacePos(DataSetName,PrecursorFragmentMass,RT):
         x=SpectrumPeaks.loc[ind]['Mean_m/z']
         RelInt=SpectrumPeaks.loc[ind]['RelInt']        
         ConfidenceInterval=SpectrumPeaks.loc[ind]['ConfidenceInterval(ppm)']
-        SpacePossibleFragmentsDF=MoleculesCand(PeakMass=x,RelInt=RelInt,ConfidenceInterval=ConfidenceInterval)
+        PossibleFragments=MoleculesCand(PeakMass=x,RelInt=RelInt,ConfidenceInterval=ConfidenceInterval)
        # ShowDF(re)
        # print(re)
         if type(re)!=type(0):   
             if c==0:
-                AllPeaksAllPossibleFragments=SpacePossibleFragmentsDF
+                AllPeaksAllPossibleFragments=PossibleFragments
             else:
-                AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments.append(SpacePossibleFragmentsDF)
+                AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments.append(PossibleFragments)
             c+=1
     if type(AllPeaksAllPossibleFragments)==type(0):
         print('error')
