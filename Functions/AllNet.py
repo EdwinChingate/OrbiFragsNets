@@ -9,5 +9,5 @@ def AllNet(ListofFragmentsinListofPeaks,FeasiblePeaksNetworks):
             AllFragNet=np.array(FragmentsNetworks) 
             c=False
         else:
-            AllFragNet=np.append(AllPosNet,np.array(FragmentsNetworks),axis=0)
+            AllFragNet=np.append(AllFragNet,np.array(FragmentsNetworks),axis=0)
     return AllFragNet    

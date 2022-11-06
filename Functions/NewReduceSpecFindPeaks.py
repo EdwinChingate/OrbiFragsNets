@@ -1,16 +1,24 @@
 import numpy as np
 import pandas as pd
+import os
 from WelchTest import *
 from PondMZStats import *
 from ShowDF import *
 def NewReduceSpecFindPeaks(RawSignals,MinInttobePeak=5e3,NoiseTresInt=1e2,ConfidenceIntervalTolerance=80,MinRelIntCont=2,MinSignalstobePeak=3): #Filtering noise and reducing similar peaks    
     #MinDis can be a very delicated parameter, as it defines the threshold in between isotopomers and different substances
     RawSignals=np.array(RawSignals)
+    home=os.getcwd()
+    Parameters=pd.read_csv(home+'/Parameters/ParametersTable.csv',index_col=0)
+    MinInttobePeak=int(Parameters.loc['MinInttobePeak']['Value'])
+    NoiseTresInt=int(Parameters.loc['NoiseTresInt']['Value'])
+    ConfidenceIntervalTolerance=int(Parameters.loc['ConfidenceIntervalTolerance']['Value'])
+    MinRelIntCont=int(Parameters.loc['MinRelIntCont']['Value'])
+    MinSignalstobePeak=int(Parameters.loc['MinSignalstobePeak']['Value'])        
     dimen=np.shape(RawSignals)
     if dimen[0]<dimen[1]:
         RawSignals=RawSignals.T  
     NonZeroLoc=np.where(RawSignals[:,1]>NoiseTresInt)[0]    
-    RawSignalsFil=np.array(RawSignals[NonZero,:])
+    RawSignalsFil=np.array(RawSignals[NonZeroLoc,:])
     L=len(RawSignalsFil[:,1].copy())
     RawSignalsFil=np.concatenate([RawSignalsFil,RawSignalsFil[-1:,:]])
     NFrag=len(RawSignalsFil[:,0])
@@ -53,8 +61,8 @@ def NewReduceSpecFindPeaks(RawSignals,MinInttobePeak=5e3,NoiseTresInt=1e2,Confid
                 Npeak+=1 #I need to check what's happening with this one
             x1=x2+1            
             x2=x1+1   
-            mzRef=RawSignalsFil[x1,0]          
-            MinDis=ConfidenceIntevalTolerance/1e6*mzRef
+            mzRef=RawSignalsFil[x1,0]    
+            MinDis=ConfidenceIntervalTolerance/1e6*mzRef
         else:
             x2+=1
             PosibleSpec=RawSignalsFil[x1:x2+1,:2].copy() #This one should become in PeakData
@@ -67,7 +75,7 @@ def NewReduceSpecFindPeaks(RawSignals,MinInttobePeak=5e3,NoiseTresInt=1e2,Confid
             data.append(0)
             data.append(0)
     NewSpec=np.array(NewSpec)  
-    Discharge=np.where((NewSpec[:,2]>MinSignalstobePeak)&(NewSpec[:,4]<ConfidenceIntevalTolerance)&(NewSpec[:,6]/max(NewSpec[:,6])*100>MinRelIntCont))[0]      
+    Discharge=np.where((NewSpec[:,2]>MinSignalstobePeak)&(NewSpec[:,4]<ConfidenceIntervalTolerance)&(NewSpec[:,6]/max(NewSpec[:,6])*100>MinRelIntCont))[0]      
     NewSpec=NewSpec[Discharge,:]
     SpectrumPeaks=pd.DataFrame(NewSpec,columns=['Mean_m/z','Std_m/z','DataPoints','ConfidenceInterval','ConfidenceInterval(ppm)','MostIntense_m/z','TotalIntensity','MinID','MaxID','t_value','t_ref','p'])
     SpectrumPeaks['RelInt']=SpectrumPeaks['TotalIntensity']/sum(SpectrumPeaks['TotalIntensity'])*100

@@ -5,11 +5,11 @@ def GradeNet(AllFragNet,AdjacencyMatDF): #I should include the explained intensi
     #This one takes too long, I should change the use of DF for list or array
     #IntVec=np.array(list(DF.groupby(['RelInt']).groups.keys()))
     AdjacencyMat=np.array(AdjacencyMatDF)
-    Lnet=len(NetF)
+    Lnet=len(AllFragNet)
     for xL in np.arange(Lnet):
-        locNet=np.where(NetF[xL,:]>-1)[0]
-        locD=np.array(NetF[xL,locNet],dtype=int)
+        locNet=np.where(AllFragNet[xL,:]>-1)[0]
+        locD=np.array(AllFragNet[xL,locNet],dtype=int)
         Dspec=(AdjacencyMat[locD,:].copy())[:,locD]        
         NetworkGrade=np.sum(Dspec)
-        NetF[xL,-1]=NetworkGrade
+        AllFragNet[xL,-1]=NetworkGrade
     return AllFragNet

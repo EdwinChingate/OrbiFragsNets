@@ -14,10 +14,12 @@ def AnnotateSpec(DataSetName,PrecursorFragmentMass,RT,SaveAnnotation=True):
     if type(AllPeaksAllPossibleFragments)==type(0):
         return 0
     AdjacencyMatDF=SelfConsistFrag(AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments)
-   # ShowDF(D)
+    ShowDF(AllPeaksAllPossibleFragments)
+    ShowDF(AdjacencyMatDF)
     FragmentGrade=np.array(AdjacencyMatDF.sum())
   #  print(Vsum)
     MinGrade=MinEdges(AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments,FragmentGrade=FragmentGrade)
+    print(MinGrade)
     ve=np.where(FragmentGrade>MinGrade)[0] #Quite sensible parameter   
     AllPeaksPossibleFragments=AllPeaksAllPossibleFragments.loc[ve]
   
@@ -28,6 +30,7 @@ def AnnotateSpec(DataSetName,PrecursorFragmentMass,RT,SaveAnnotation=True):
    # print(len(Mat))
     AllFragNet=AllNet(ListofFragmentsinListofPeaks=ListofFragmentsinListofPeaks,FeasiblePeaksNetworks=FeasiblePeaksNetworks)
     AllFragNet=GradeNet(AllFragNet=AllFragNet,AdjacencyMatDF=AdjacencyMatDF)
+    print(AllFragNet)    
     locF=np.where(AllFragNet[:,-1]==max(AllFragNet[:,-1]))[0]
     locC=np.where((AllFragNet[locF,:-1][0]>-1))
     AnSpec=AllPeaksPossibleFragments.loc[AllFragNet[locF,locC][0]]

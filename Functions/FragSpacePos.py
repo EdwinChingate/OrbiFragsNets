@@ -7,7 +7,7 @@ def FragSpacePos(DataSetName,PrecursorFragmentMass,RT):
     if type(SpectrumPeaks)==type(0):
         return 0
   #  ShowDF(SpectrumPeaks)
-    c=0
+    AppendVar=True
     L=len(SpectrumPeaks)   
     AllPeaksAllPossibleFragments=0
     for ind in SpectrumPeaks.index:
@@ -17,12 +17,12 @@ def FragSpacePos(DataSetName,PrecursorFragmentMass,RT):
         PossibleFragments=MoleculesCand(PeakMass=x,RelInt=RelInt,ConfidenceInterval=ConfidenceInterval)
        # ShowDF(re)
        # print(re)
-        if type(re)!=type(0):   
-            if c==0:
+        if type(PossibleFragments)!=type(0):   
+            if AppendVar:
                 AllPeaksAllPossibleFragments=PossibleFragments
+                AppendVar=False
             else:
                 AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments.append(PossibleFragments)
-            c+=1
     if type(AllPeaksAllPossibleFragments)==type(0):
         print('error')
         return 0

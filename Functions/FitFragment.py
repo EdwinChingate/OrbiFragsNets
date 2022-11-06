@@ -8,9 +8,9 @@ def FitFragment(AllPeaksAllPossibleFragments,AdjacencyMatDF,PeakMass1,PeakMass2)
     Peak2AllPossibleFragments=AllPeaksAllPossibleFragments.loc[LocId2]
     Tre1=AllPeaksAllPossibleFragments.loc[Peak1AllPossibleFragments.index[0]]['ConfidenceInterval(ppm)']
     Tre2=AllPeaksAllPossibleFragments.loc[Peak2AllPossibleFragments.index[0]]['ConfidenceInterval(ppm)']
-    ConfidenceInterval=10
+    ConfidenceInterval=int(min(Tre1,Tre2))
     PossibleFragments=MoleculesCand(PeakMass=PeakMassDif,ConfidenceInterval=ConfidenceInterval)    
-    if type(re)==type(0):
+    if type(PossibleFragments)==type(0):
         return AdjacencyMatDF
     for it1 in Peak1AllPossibleFragments.index:
         V1=np.array(AllPeaksAllPossibleFragments.loc[it1][['K','Na','C13','C','Cl','S43','S','P','F','O','N','H']])
