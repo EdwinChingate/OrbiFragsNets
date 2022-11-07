@@ -10,11 +10,11 @@ def FragSpacePos(DataSetName,PrecursorFragmentMass,RT):
     AppendVar=True
     L=len(SpectrumPeaks)   
     AllPeaksAllPossibleFragments=0
-    for ind in SpectrumPeaks.index:
-        x=SpectrumPeaks.loc[ind]['Mean_m/z']
-        RelInt=SpectrumPeaks.loc[ind]['RelInt']        
-        ConfidenceInterval=SpectrumPeaks.loc[ind]['ConfidenceInterval(ppm)']
-        PossibleFragments=MoleculesCand(PeakMass=x,RelInt=RelInt,ConfidenceInterval=ConfidenceInterval)
+    for peak in SpectrumPeaks:    
+        PeakMass=peak[0]
+        RelInt=peak[-1]
+        ConfidenceInterval=peak[4]
+        PossibleFragments=MoleculesCand(PeakMass=PeakMass,RelInt=RelInt,ConfidenceInterval=ConfidenceInterval)
        # ShowDF(re)
        # print(re)
         if type(PossibleFragments)!=type(0):   
@@ -22,9 +22,9 @@ def FragSpacePos(DataSetName,PrecursorFragmentMass,RT):
                 AllPeaksAllPossibleFragments=PossibleFragments
                 AppendVar=False
             else:
-                AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments.append(PossibleFragments)
+                AllPeaksAllPossibleFragments=np.append(AllPeaksAllPossibleFragments,PossibleFragments,axis=0)
     if type(AllPeaksAllPossibleFragments)==type(0):
         print('error')
         return 0
-    AllPeaksAllPossibleFragments.index=np.arange(len(AllPeaksAllPossibleFragments.index))
+   # AllPeaksAllPossibleFragments.index=np.arange(len(AllPeaksAllPossibleFragments.index))
     return AllPeaksAllPossibleFragments

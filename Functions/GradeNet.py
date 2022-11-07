@@ -1,10 +1,9 @@
 import numpy as np
-def GradeNet(AllFragNet,AdjacencyMatDF): #I should include the explained intensity as well
+def GradeNet(AllFragNet,AdjacencyMat): #I should include the explained intensity as well
     #NetF[1]=NetF[1].drop_duplicates()
     #Good time to include penalization
     #This one takes too long, I should change the use of DF for list or array
     #IntVec=np.array(list(DF.groupby(['RelInt']).groups.keys()))
-    AdjacencyMat=np.array(AdjacencyMatDF)
     Lnet=len(AllFragNet)
     for xL in np.arange(Lnet):
         locNet=np.where(AllFragNet[xL,:]>-1)[0]

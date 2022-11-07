@@ -8,7 +8,7 @@ def MinEdges(AllPeaksAllPossibleFragments,FragmentGrade):
     for x in np.arange(5):            	
         ve=np.where(FragmentGrade>x)[0] #Quite sensible parameter    
        # print('x:',x)
-        AllPeaksPossibleFragments=AllPeaksAllPossibleFragments.loc[ve]
+        AllPeaksPossibleFragments=AllPeaksAllPossibleFragments[ve,:]
         if len(AllPeaksPossibleFragments)>0:
         	FeasiblePeaksNetworks=FragNetIntRes(AllPeaksPossibleFragments=AllPeaksPossibleFragments)
         	#print(FeasiblePeaksNetworks)

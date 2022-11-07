@@ -1,5 +1,5 @@
 import numpy as np
-def FragNet(ListofFragmentsinListofPeaks,PeaksNetwork,PeakPosition=0,FragmentPosition=0,FragmentsNetwork=[],FragmentsNetworks=[],StartNetworking=True):
+def FragNet(ListofFragmentsinListofPeaks,PeaksNetwork,PeakPosition=int(0),FragmentPosition=int(0),FragmentsNetwork=[],FragmentsNetworks=[],StartNetworking=True):
 #PeaksNetwork contains all of the possible values that an element in FragmentsNetwork can take. When it's called from FragNetIntRes it just contemplates the possibility of using one fragment or not, but when it's called from AllNet it cantemplates all the possible ions that could explain a specific fragment.
     PosLoc=np.where(PeaksNetwork==1)[0] 
     #print(PeaksNetwork)
