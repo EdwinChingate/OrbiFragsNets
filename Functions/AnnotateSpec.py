@@ -44,6 +44,10 @@ def AnnotateSpec(DataSetName,PrecursorFragmentMass,RT,SaveAnnotation=True):
         #AnSpec=AllPeaksPossibleFragments.loc[AllFragNet[x,locC][0]]    	        
         #AnSpec.index=AnSpec['Formula']
         #ShowDF(AnSpec)
+        AnSpecDF=pd.DataFrame(AnSpec,columns=['K','Na','C13','C','Cl','S43','S','P','F','O','N','H','Error','Predicted_m/z','Measured_m/z','ConfidenceInterval(ppm)','RelInt'])
+        AnSpecDF=Formula(AnSpecDF)
+        AnSpecDF.index=AnSpecDF['Formula']
+        ShowDF(AnSpecDF)
         ErrorAnnotations[mo]=sum(AnSpec[:,12]) #I need to add a filter here to check if the fragments are consistent in between them like not a new strange element apears...
     chosenLoc=np.where(ErrorAnnotations==min(ErrorAnnotations))[0][0]
     chosen=locF[chosenLoc]
