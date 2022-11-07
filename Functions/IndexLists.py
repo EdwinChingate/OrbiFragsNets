@@ -1,11 +1,13 @@
 import numpy as np
+import pandas as pd
 def IndexLists(AllPeaksPossibleFragments):
     ListofFragmentsinListofPeaks=[]
-    MF=list(AllPeaksPossibleFragments.groupby(['Measured_m/z']).groups.keys())
+    AllPeaksPossibleFragmentsDF=pd.DataFrame(AllPeaksPossibleFragments)
+    MF=list(AllPeaksPossibleFragmentsDF.groupby([14]).groups.keys())    
     for x in MF:
-        IFDFloc=AllPeaksPossibleFragments['Measured_m/z']==x
-        IFDF=AllPeaksPossibleFragments.loc[IFDFloc]
-        vecind=np.array(IFDF.index)
+        IFDFloc=np.where(AllPeaksPossibleFragments[:,14]==x)[0]
+        #IFDF=AllPeaksPossibleFragments.loc[IFDFloc]
+        #vecind=np.array(IFDF.index)
       #  vecind=np.append(vecind)
-        ListofFragmentsinListofPeaks.append(vecind)
+        ListofFragmentsinListofPeaks.append(IFDFloc)
     return ListofFragmentsinListofPeaks

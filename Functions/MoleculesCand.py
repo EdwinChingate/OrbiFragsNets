@@ -16,16 +16,13 @@ def MoleculesCand(PeakMass,RelInt=0,ConfidenceInterval=10,MaxAtomicSubscripts=0)
         return 0
    # print(ConfidenceFilter)
     SpacePossibleFragmentsMat=np.array(SpacePossibleFragments)        
-    SpacePossibleFragmentsMat=SpacePossibleFragmentsMat[ConfidenceFilter,:].copy()
-    PossibleFragments=pd.DataFrame(SpacePossibleFragmentsMat,columns=['K','Na','C13','C','Cl','S43','S','P','F','O','N','H'])
-    # ShowDF(PossibleFragments)
-    PossibleFragments=Formula(PossibleFragments=PossibleFragments)
-    PossibleFragments['Error (ppm)']=MassDiff[ConfidenceFilter]
-    PossibleFragments['Predicted_m/z']=ExactMassVecSpacePos[ConfidenceFilter]
-    PossibleFragments['Measured_m/z']=PeakMass
-    PossibleFragments['ConfidenceInterval(ppm)']=ConfidenceInterval
-    PossibleFragments['RelInt']=RelInt
-    #PossibleFragments['loc']=ConfidenceFilter
-   # ShowDF(PossibleFragments)
-    #print()
+    PossibleFragments=SpacePossibleFragmentsMat[ConfidenceFilter,:].copy()
+    PeakMassVec=np.ones(len(ConfidenceFilter))*PeakMass
+    ConfidenceIntervalVec=np.ones(len(ConfidenceFilter))*ConfidenceInterval
+    RelIntVec=np.ones(len(ConfidenceFilter))*RelInt
+    PossibleFragments=np.c_[PossibleFragments,MassDiff[ConfidenceFilter]] #Error
+    PossibleFragments=np.c_[PossibleFragments,ExactMassVecSpacePos[ConfidenceFilter]] #PedictedMass
+    PossibleFragments=np.c_[PossibleFragments,PeakMassVec]    
+    PossibleFragments=np.c_[PossibleFragments,ConfidenceIntervalVec]
+    PossibleFragments=np.c_[PossibleFragments,RelIntVec]                
     return PossibleFragments
