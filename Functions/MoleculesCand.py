@@ -3,8 +3,8 @@ import pandas as pd
 from SolveSpace import *
 from Formula import *
 from ExactMassCal import *
-def MoleculesCand(PeakMass,RelInt=0,ConfidenceInterval=10):                          
-    SpacePossibleFragments=SolveSpace(PeakMass=PeakMass,SpacePossibleFragments=[])    
+def MoleculesCand(PeakMass,RelInt=0,ConfidenceInterval=10,MaxAtomicSubscripts=0):                          
+    SpacePossibleFragments=SolveSpace(PeakMass=PeakMass,SpacePossibleFragments=[],MaxAtomicSubscripts=MaxAtomicSubscripts)    
     ExactMassVecSpacePos=np.array(list(map(ExactMassCal,SpacePossibleFragments))) 
     MassDiff=abs(ExactMassVecSpacePos-PeakMass)/PeakMass*1e6
    # print(MassDiff)

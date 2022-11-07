@@ -6,8 +6,9 @@ def SolveSpace(PeakMass,SpacePossibleFragments=[],Minimumatomicsubscript=0,Atomi
         home=os.getcwd()
         MassVecDF=pd.read_csv(home+'/Parameters/MassVec.csv',index_col=0)
         MassVec=np.array(MassVecDF['Exact Mass'])
-        MaxAtomicSubscriptsDF=pd.read_csv(home+'/Parameters/MaxAtomicSubscripts.csv',index_col=0)
-        MaxAtomicSubscripts=np.array(MaxAtomicSubscriptsDF['Value'])
+        if type(MaxAtomicSubscripts)==type(0):
+            MaxAtomicSubscriptsDF=pd.read_csv(home+'/Parameters/MaxAtomicSubscripts.csv',index_col=0)
+            MaxAtomicSubscripts=np.array(MaxAtomicSubscriptsDF['Value'])
         atomicsubscript=min(int(PeakMass/MassVec[0]),MaxAtomicSubscripts[0])
         atomicsubscript1=1-atomicsubscript
     else:

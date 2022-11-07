@@ -11,9 +11,11 @@ def MinEdges(AllPeaksAllPossibleFragments,FragmentGrade):
         AllPeaksPossibleFragments=AllPeaksAllPossibleFragments.loc[ve]
         if len(AllPeaksPossibleFragments)>0:
         	FeasiblePeaksNetworks=FragNetIntRes(AllPeaksPossibleFragments=AllPeaksPossibleFragments)
+        	#print(FeasiblePeaksNetworks)
         	red[x]=len(FeasiblePeaksNetworks)	
       #  print(len(Mat))        
     sf=np.where(red>0)[0]
     #print(red)
-    MinGrade=np.where(red==min(red[sf]))[0]  
+    MinGrade0=np.where(red==min(red[sf]))[0]  
+    MinGrade=max(MinGrade0)
     return MinGrade

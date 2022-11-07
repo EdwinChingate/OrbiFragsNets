@@ -1,0 +1,9 @@
+Parameter,Value
+MassError,5
+RTError,10
+MinInttobePeak,1e4
+NoiseTresInt,1e2
+ConfidenceIntervalTolerance,80
+MinRelIntCont,3
+MinSignalstobePeak,3
+MinIntExplained,70
