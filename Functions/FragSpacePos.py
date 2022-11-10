@@ -1,6 +1,7 @@
 from GetMS2forFeature import *
 from MoleculesCand import *
 import numpy as np
+#Look for the parent compound and use it to define the rest of fragments
 def FragSpacePos(DataSetName,PrecursorFragmentMass,RT):
     SpectrumPeaks=GetMS2forFeature(DataSetName=DataSetName,PrecursorFragmentMass=PrecursorFragmentMass,RT=RT)
   #  ShowDF(SpectrumPeaks)

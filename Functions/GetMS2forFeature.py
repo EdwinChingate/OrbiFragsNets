@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 from pyopenms import *
-from NewReduceSpecFindPeaks import *
+from MSPeaksIdentification import *
 from ChargeDataSet import *
 from ShowDF import *
 def GetMS2forFeature(DataSetName,PrecursorFragmentMass,RT,MassError=5,RTError=3):   	  
@@ -34,7 +34,7 @@ def GetMS2forFeature(DataSetName,PrecursorFragmentMass,RT,MassError=5,RTError=3)
             RawSignalsDF=pd.DataFrame(RawSignals,columns=['m/z','Intensity'])
             RawSignalsDF=RawSignalsDF.sort_values(by='m/z')
            # print('CP')
-            SpectrumPeaks=NewReduceSpecFindPeaks(RawSignals=RawSignalsDF)
+            SpectrumPeaks=MSPeaksIdentification(RawSignals=RawSignalsDF)
            # print('CP2')            
             break
         except:
