@@ -10,7 +10,7 @@ import numpy as np
 from ShowDF import *
 import datetime
 import os
-def AnnotateSpec(DataSetName,PrecursorFragmentMass,RT,SaveAnnotation=True):
+def AnnotateSpec(DataSetName,PrecursorFragmentMass,RT,SaveAnnotation=False):
     AllPeaksAllPossibleFragments=FragSpacePos(DataSetName=DataSetName,PrecursorFragmentMass=PrecursorFragmentMass,RT=RT)
     if type(AllPeaksAllPossibleFragments)==type(0):
         return 0
@@ -19,7 +19,8 @@ def AnnotateSpec(DataSetName,PrecursorFragmentMass,RT,SaveAnnotation=True):
     #ShowDF(AdjacencyMatDF)
     FragmentGrade=sum(AdjacencyMat)
   #  print(Vsum)
-    MinGrade=MinEdges(AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments,FragmentGrade=FragmentGrade)
+    #MinGrade=MinEdges(AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments,FragmentGrade=FragmentGrade)
+    MinGrade=0
     #print(MinGrade)
     ve=np.where(FragmentGrade>MinGrade)[0] #Quite sensible parameter   
     AllPeaksPossibleFragments=AllPeaksAllPossibleFragments[ve,:]
@@ -38,6 +39,7 @@ def AnnotateSpec(DataSetName,PrecursorFragmentMass,RT,SaveAnnotation=True):
     ErrorAnnotations=np.ones(LlocF)*1e3
     for mo in np.arange(LlocF): #I can improve the filter here by checking the similarity in between the different fragments
         x=locF[mo]
+        print(AllFragNet[x,-1])
         locC=np.where((AllFragNet[x,:-1]>-1))
         locRow=np.array(AllFragNet[x,locC],dtype=int)
         AnSpec=AllPeaksPossibleFragments[locRow,:][0].copy()
