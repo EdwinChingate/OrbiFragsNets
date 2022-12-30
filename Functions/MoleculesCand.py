@@ -3,7 +3,7 @@ import pandas as pd
 from SolveSpace import *
 from Formula import *
 from ExactMassCal import *
-def MoleculesCand(PeakMass,RelInt=0,ConfidenceInterval=10,MaxAtomicSubscripts=0):                          
+def MoleculesCand(PeakMass,RelInt=0,ConfidenceInterval=10,MaxAtomicSubscripts=0,Std=0,NumberofDataPoints=0):                          
     SpacePossibleFragments=SolveSpace(PeakMass=PeakMass,SpacePossibleFragments=[],MaxAtomicSubscripts=MaxAtomicSubscripts)    
     ExactMassVecSpacePos=np.array(list(map(ExactMassCal,SpacePossibleFragments))) 
     MassDiff=abs(ExactMassVecSpacePos-PeakMass)/PeakMass*1e6
@@ -19,10 +19,14 @@ def MoleculesCand(PeakMass,RelInt=0,ConfidenceInterval=10,MaxAtomicSubscripts=0)
     PossibleFragments=SpacePossibleFragmentsMat[ConfidenceFilter,:].copy()
     PeakMassVec=np.ones(len(ConfidenceFilter))*PeakMass
     ConfidenceIntervalVec=np.ones(len(ConfidenceFilter))*ConfidenceInterval
+    StdVec=np.ones(len(ConfidenceFilter))*Std
+    NumberofDataPointsVec=np.ones(len(ConfidenceFilter))*NumberofDataPoints
     RelIntVec=np.ones(len(ConfidenceFilter))*RelInt
     PossibleFragments=np.c_[PossibleFragments,MassDiff[ConfidenceFilter]] #Error
     PossibleFragments=np.c_[PossibleFragments,ExactMassVecSpacePos[ConfidenceFilter]] #PedictedMass
     PossibleFragments=np.c_[PossibleFragments,PeakMassVec]    
     PossibleFragments=np.c_[PossibleFragments,ConfidenceIntervalVec]
-    PossibleFragments=np.c_[PossibleFragments,RelIntVec]                
+    PossibleFragments=np.c_[PossibleFragments,RelIntVec]   
+    PossibleFragments=np.c_[PossibleFragments,StdVec]
+    PossibleFragments=np.c_[PossibleFragments,NumberofDataPointsVec]                                    
     return PossibleFragments

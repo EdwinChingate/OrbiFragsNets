@@ -15,7 +15,9 @@ def FragSpacePos(DataSetName,PrecursorFragmentMass,RT):
         PeakMass=peak[0]
         RelInt=peak[-1]
         ConfidenceInterval=peak[4]
-        PossibleFragments=MoleculesCand(PeakMass=PeakMass,RelInt=RelInt,ConfidenceInterval=ConfidenceInterval)
+        Std=peak[1]
+        NumberofDataPoints=peak[2]
+        PossibleFragments=MoleculesCand(PeakMass=PeakMass,RelInt=RelInt,ConfidenceInterval=ConfidenceInterval,Std=Std,NumberofDataPoints=NumberofDataPoints)
        # ShowDF(re)
        # print(re)
         if type(PossibleFragments)!=type(0):   
