@@ -1,9 +1,9 @@
-from GetMS2forFeature import *
+#from GetMS2forFeature import *
 from MoleculesCand import *
 import numpy as np
 #Look for the parent compound and use it to define the rest of fragments
-def FragSpacePos(DataSetName,PrecursorFragmentMass,RT):
-    SpectrumPeaks=GetMS2forFeature(DataSetName=DataSetName,PrecursorFragmentMass=PrecursorFragmentMass,RT=RT)
+def FragSpacePos(SpectrumPeaks,MaxAtomicSubscripts):
+    #SpectrumPeaks=GetMS2forFeature(DataSetName=DataSetName,PrecursorFragmentMass=PrecursorFragmentMass,RT=RT)
   #  ShowDF(SpectrumPeaks)
     if type(SpectrumPeaks)==type(0):
         return 0
@@ -17,7 +17,7 @@ def FragSpacePos(DataSetName,PrecursorFragmentMass,RT):
         ConfidenceInterval=peak[4]
         Std=peak[1]
         NumberofDataPoints=peak[2]
-        PossibleFragments=MoleculesCand(PeakMass=PeakMass,RelInt=RelInt,ConfidenceInterval=ConfidenceInterval,Std=Std,NumberofDataPoints=NumberofDataPoints)
+        PossibleFragments=MoleculesCand(PeakMass=PeakMass,RelInt=RelInt,MaxAtomicSubscripts=MaxAtomicSubscripts,ConfidenceInterval=ConfidenceInterval,Std=Std,NumberofDataPoints=NumberofDataPoints)
        # ShowDF(re)
        # print(re)
         if type(PossibleFragments)!=type(0):   
