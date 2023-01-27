@@ -1,4 +1,4 @@
-#from FragSpacePos import *
+from FragSpacePos import *
 from SelfConsistFrag import *
 from FragNetIntRes import *
 from Formula import *
@@ -22,7 +22,7 @@ def AnnotateSpec(SpectrumPeaks,PrecursorFragmentMass,ConfidenceInterval,SaveAnno
     AllFragNet=[]
     for x in np.arange(len(mc)):    
        # ShowDF(pd.DataFrame(mc[x,:]))
-        MaxAtomicSubscripts=mc[x,:12]
+        MaxAtomicSubscripts=np.array(mc[x,:12])
         AllPeaksAllPossibleFragments=FragSpacePos(SpectrumPeaks=SpectrumPeaks,MaxAtomicSubscripts=MaxAtomicSubscripts)
         if type(AllPeaksAllPossibleFragments)!=type(0):
             

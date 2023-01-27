@@ -1,7 +1,7 @@
-#I include a replacement for the GetMS2forFeature function
 from GetMS2forFeature import *
 from MoleculesCand import *
 import numpy as np
+#I include a replacement for the GetMS2forFeature function
 #Look for the parent compound and use it to define the rest of fragments
 #Testing changes
 def FragSpacePos(SpectrumPeaks,MaxAtomicSubscripts):
@@ -15,7 +15,7 @@ def FragSpacePos(SpectrumPeaks,MaxAtomicSubscripts):
     L=len(SpectrumPeaks)   
     AllPeaksAllPossibleFragments=0
     for peak in SpectrumPeaks:   
-       # print(peak)
+        #print(type(peak))
         PeakMass=peak[0]
         RelInt=peak[-1]
         ConfidenceInterval=peak[4]

@@ -1,8 +1,8 @@
+#This one is just beautifull! Next step will be to make it a function, and to integrate all data from different times
 import numpy as np
 from Derivate import *
 from PondMZStats import *
 from WelchTest import *
-import matplotlib.pyplot as plt
 def NumpyMSPeaksIdentification(RawSignals,NoiseTresInt=5000,MinTresRelDer=3e5,minMZbetweenPeaks=1e-3,MinInttobePeak=100,MinSignalstobePeak=4,MinPeaksSpectra=3,r2Filter=0.8,ConfidenceIntervalTolerance=30,MinMZ=0,MaxMZ=1500):    
     #Include the interval to analize, then I can run short analises for only one substance
     RawSignals=np.array(RawSignals)    
