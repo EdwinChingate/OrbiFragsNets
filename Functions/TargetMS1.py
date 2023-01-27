@@ -1,4 +1,5 @@
 from pyopenms import *
+from NumpyMSPeaksIdentification import *
 import numpy as np
 def TargetMS1(IDvec,MinMZ,MaxMZ,DataSet):
     FirstSpectra=True

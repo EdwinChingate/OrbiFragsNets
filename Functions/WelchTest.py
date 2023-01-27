@@ -11,7 +11,7 @@ def WelchTest(PeakStats1,PeakStats2,alpha=0.05):
     FreedomDegrees=(PeakStats1[1]**2/PeakStats1[2]+PeakStats2[1]**2/PeakStats2[2])**2/(PeakStats1[1]**4/((PeakStats1[2]-1)*PeakStats1[2]**2)+PeakStats2[1]**4/((PeakStats2[2]-1)*PeakStats2[2]**2))
     tref=stats.t.interval(1-alpha, FreedomDegrees)[1]
     pValue=0 #I need to include the calculation of the p-value
-    if t>tref:
+    if t>0:#tref:
         Approval=True
     else:
         Approval=False

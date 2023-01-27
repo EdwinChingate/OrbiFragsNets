@@ -1,3 +1,4 @@
+from MS1IDs import *
 from TargetMS1 import *
 from SoftChromatogram import *
 from SplitFeaturesRT import *
@@ -27,6 +28,7 @@ def FeaturesDet(PrecursorFragmentMass,DataSet):
             soft=np.array(Soft).T
             Chromatograms=SplitFeaturesRT(ChromData,Chromatograms,Chromato)
         MinPeakLoc=x
+    Chromatograms=np.array(Chromatograms)
     MinDifMZ=np.min(abs(Chromatograms[:,5]-PrecursorFragmentMass))
     ChromatogramLoc=np.where(abs(Chromatograms[:,5]-PrecursorFragmentMass)==MinDifMZ)[0]
     Chromatogram=Chromatograms[ChromatogramLoc,:]

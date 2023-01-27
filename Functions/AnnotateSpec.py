@@ -18,7 +18,7 @@ def AnnotateSpec(SpectrumPeaks,PrecursorFragmentMass,ConfidenceInterval,SaveAnno
     if type(mc)==type(0):
         print('her')
         return 0
-    ShowDF(pd.DataFrame(mc))
+   # ShowDF(pd.DataFrame(mc))
     AllFragNet=[]
     for x in np.arange(len(mc)):    
        # ShowDF(pd.DataFrame(mc[x,:]))
