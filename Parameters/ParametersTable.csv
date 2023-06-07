@@ -1,9 +1,9 @@
 Parameter,Value,Description
-MassError,5,
-RTError,10,
-MinInttobePeak,1e4,
-NoiseTresInt,1e2,
-ConfidenceIntervalTolerance,80,
-MinRelIntCont,3,
-MinSignalstobePeak,3,
-MinIntExplained,70,
+MassError,5, Maximum m/z difference (ppm) between precursor ions in MS1 and MS2.
+RTError,10,  Maximum RT difference (s) between the MS1 spectrum and MS2 spectrum.
+MinInttobePeak,1e4, Minimum intensity to be considered as a peak.
+NoiseTresInt,1e2, Minimum intensity to be considered as a signal.
+ConfidenceIntervalTolerance,80, Maximum uncertainty to tolerate in a peak.
+MinRelIntCont,3, Minimum relatve intensity in the spectrum to be used in the fragments networks.
+MinSignalstobePeak,3, Minimum number of signals to consider a cluster as a peak.
+MinIntExplained,70, Minimum fraction of the total signal intensity that should be considered by the fragments networks
