@@ -1,0 +1,3 @@
+feat_id,precursor_mz,precursor_ci_ppm,n_consensus_fragments,n_above_precursor,n_orbifrags_fragments,selected_input_intensity_percent,uncertainty_model,max_networks,annotation_status,n_annotated_fragments,consensus_spectrum_file
+0,245.0781752822625,10.0,32,4,10,100.00000000000001,bounded_consensus_iqr_proxy,100000,annotated,8,examples/ms2topo/Alignedms2Features2026-05-20/Consensus_ms2-spectra_0.csv
+1,245.078171684278,10.0,8,2,1,100.0,bounded_consensus_iqr_proxy,100000,too_few_fragments,0,examples/ms2topo/Alignedms2Features2026-05-20/Consensus_ms2-spectra_1.csv

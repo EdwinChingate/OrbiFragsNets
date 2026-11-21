@@ -1,13 +1,18 @@
 import numpy as np
 import pandas as pd
 import os
-def SolveSpace(PeakMass,SpacePossibleFragments=[],Minimumatomicsubscript=0,AtomicPosition=0,AtomicSubscripts=np.zeros(12),atomicsubscript='Start',MassVec=0,MaxAtomicSubscripts=0):       
+from pathlib import Path
+def SolveSpace(PeakMass,SpacePossibleFragments=None,Minimumatomicsubscript=0,AtomicPosition=0,AtomicSubscripts=None,atomicsubscript='Start',MassVec=0,MaxAtomicSubscripts=0):
+    if SpacePossibleFragments is None:
+        SpacePossibleFragments = []
+    if AtomicSubscripts is None:
+        AtomicSubscripts = np.zeros(12)
     if atomicsubscript=='Start':
-        home=os.getcwd()
-        MassVecDF=pd.read_csv(home+'/Parameters/MassVec.csv',index_col=0)
+        parameters_folder = Path(__file__).resolve().parents[1] / 'Parameters'
+        MassVecDF=pd.read_csv(parameters_folder / 'MassVec.csv',index_col=0)
         MassVec=np.array(MassVecDF['Exact Mass'])
         if type(MaxAtomicSubscripts)==type(0):
-            MaxAtomicSubscriptsDF=pd.read_csv(home+'/Parameters/MaxAtomicSubscripts.csv',index_col=0)
+            MaxAtomicSubscriptsDF=pd.read_csv(parameters_folder / 'MaxAtomicSubscripts.csv',index_col=0)
             MaxAtomicSubscripts=np.array(MaxAtomicSubscriptsDF['Value'])
         atomicsubscript=min(int(PeakMass/MassVec[0]),MaxAtomicSubscripts[0])
         atomicsubscript1=1-atomicsubscript

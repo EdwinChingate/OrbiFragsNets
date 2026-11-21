@@ -1,5 +1,7 @@
-from GetMS2forFeature import *
-from MoleculesCand import *
+if __package__:
+    from .MoleculesCand import MoleculesCand
+else:
+    from MoleculesCand import MoleculesCand
 import numpy as np
 #I include a replacement for the GetMS2forFeature function
 #Look for the parent compound and use it to define the rest of fragments

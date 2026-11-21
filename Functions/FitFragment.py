@@ -1,6 +1,10 @@
 import numpy as np
-from MoleculesCand import *
-from WelchTest import *
+if __package__:
+    from .ExactMassCal import ExactMassCal
+    from .WelchTest import WelchTest
+else:
+    from ExactMassCal import ExactMassCal
+    from WelchTest import WelchTest
 def FitFragment(AllPeaksAllPossibleFragments,AdjacencyMat,PeakMass1,PeakMass2):
     PeakMassDif=abs(PeakMass2-PeakMass1)
     #12:Error

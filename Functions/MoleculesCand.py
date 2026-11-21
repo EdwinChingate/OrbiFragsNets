@@ -1,11 +1,16 @@
 import numpy as np
 import pandas as pd
-from SolveSpace import *
-from Formula import *
-from ExactMassCal import *
+if __package__:
+    from .SolveSpace import SolveSpace
+    from .ExactMassCal import ExactMassCal
+else:
+    from SolveSpace import SolveSpace
+    from ExactMassCal import ExactMassCal
 def MoleculesCand(PeakMass,RelInt=0,ConfidenceInterval=10,MaxAtomicSubscripts=0,Std=0,NumberofDataPoints=0):                          
     SpacePossibleFragments=SolveSpace(PeakMass=PeakMass,SpacePossibleFragments=[],MaxAtomicSubscripts=MaxAtomicSubscripts)    
-    ExactMassVecSpacePos=np.array(list(map(ExactMassCal,SpacePossibleFragments))) 
+    if len(SpacePossibleFragments) == 0:
+        return 0
+    ExactMassVecSpacePos=ExactMassCal(np.asarray(SpacePossibleFragments))
     MassDiff=abs(ExactMassVecSpacePos-PeakMass)/PeakMass*1e6
    # print(MassDiff)
     Li=len(ExactMassVecSpacePos)

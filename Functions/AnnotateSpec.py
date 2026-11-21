@@ -1,22 +1,32 @@
-from FragSpacePos import *
-from SelfConsistFrag import *
-from FragNetIntRes import *
-from Formula import *
-from IndexLists import *
-from AllNet import *
-from GradeNet import *
+if __package__:
+    from .FragSpacePos import FragSpacePos
+    from .MoleculesCand import MoleculesCand
+    from .SelfConsistFrag import SelfConsistFrag
+    from .FragNetIntRes import FragNetIntRes
+    from .Formula import Formula
+    from .IndexLists import IndexLists
+    from .AllNet import AllNet
+    from .GradeNet import GradeNet
+else:
+    from FragSpacePos import FragSpacePos
+    from MoleculesCand import MoleculesCand
+    from SelfConsistFrag import SelfConsistFrag
+    from FragNetIntRes import FragNetIntRes
+    from Formula import Formula
+    from IndexLists import IndexLists
+    from AllNet import AllNet
+    from GradeNet import GradeNet
 import numpy as np
-from ShowDF import *
+import pandas as pd
 import datetime
 import os
 #Major changes happening here... I'm also including the information from the MS1 to speed up the annotation in the MS2
 #Update this function to save the results instead of displaying, or give the option of both
 #Testing changes
-def AnnotateSpec(SpectrumPeaks,PrecursorFragmentMass,ConfidenceInterval,SaveAnnotation=False,NumberofAnnotations=0,MinNumberofAnnotations=5):
+def AnnotateSpec(SpectrumPeaks,PrecursorFragmentMass,ConfidenceInterval,SaveAnnotation=False,NumberofAnnotations=0,MinNumberofAnnotations=5,MaxNetworks=None):
     mc=MoleculesCand(PeakMass=PrecursorFragmentMass,ConfidenceInterval=ConfidenceInterval)    
     FirstNet=True    
     if type(mc)==type(0):
-        print('her')
         return 0
    # ShowDF(pd.DataFrame(mc))
     AllFragNet=[]
@@ -30,10 +40,10 @@ def AnnotateSpec(SpectrumPeaks,PrecursorFragmentMass,ConfidenceInterval,SaveAnno
             AdjacencyMat=SelfConsistFrag(AllPeaksAllPossibleFragments=AllPeaksAllPossibleFragments)
             FragmentGrade=sum(AdjacencyMat) 
             AllPeaksPossibleFragments=AllPeaksAllPossibleFragments
-            FeasiblePeaksNetworks=FragNetIntRes(AllPeaksPossibleFragments=AllPeaksPossibleFragments)    
+            FeasiblePeaksNetworks=FragNetIntRes(AllPeaksPossibleFragments=AllPeaksPossibleFragments,MaxNetworks=MaxNetworks)
             if len(FeasiblePeaksNetworks)>0:
                 ListofFragmentsinListofPeaks=IndexLists(AllPeaksPossibleFragments=AllPeaksPossibleFragments)  
-                AllFragNet=AllNet(ListofFragmentsinListofPeaks=ListofFragmentsinListofPeaks,FeasiblePeaksNetworks=FeasiblePeaksNetworks)
+                AllFragNet=AllNet(ListofFragmentsinListofPeaks=ListofFragmentsinListofPeaks,FeasiblePeaksNetworks=FeasiblePeaksNetworks,MaxNetworks=MaxNetworks)
                 AllFragNet=GradeNet(AllFragNet=AllFragNet,AdjacencyMat=AdjacencyMat)
                 
                 if len(AllFragNet)<1:
@@ -90,6 +100,8 @@ def AnnotateSpec(SpectrumPeaks,PrecursorFragmentMass,ConfidenceInterval,SaveAnno
                     AnSpecF=AllPeaksPossibleFragments[locRow,:].copy()       
                     MaximumGrade=MaxGrade.copy()    
                # print('MGB',MaximumGrade)
+    if FirstNet:
+        return 0
     AnSpecDF=pd.DataFrame(AnSpecF,columns=['K','Na','C13','C','Cl','S34','S','P','F','O','N','H','Error','PredictedMZ','MeassuredMZ','ConfidenceInterval','RelativeIntensity','Std','NumberofDataPoints'])
     AnSpecDF=Formula(AnSpecDF)
     AnSpecDF.index=AnSpecDF['Formula']

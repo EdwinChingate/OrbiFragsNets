@@ -244,6 +244,109 @@ pip install tabulate pyopenms
 
 ## Usage
 
+### Direct input from ms2Topo
+
+The existing scripts/run_ms2topo_orbifrags_formula_batch.py and
+Functions/ms2topo_consensus_adapter.py retain their original interfaces for
+compact colon-joined formula output. The API below is a separate entry point
+returning a dictionary of annotations, converted peaks, and diagnostics.
+The adapters have different return types and filtering defaults; use the
+matching example for the interface you choose.
+
+Open [ms2Topo_Annotation.ipynb](ms2Topo_Annotation.ipynb) or use the API below.
+This workflow starts with ms2Topo's saved consensus spectra and skips raw
+mzML loading, MS1 feature detection, MS2 scan extraction, and profile-peak
+fitting. It uses the existing formula-space and fragment-network engine.
+
+Install the direct-input dependencies (no pyOpenMS, IPython, or tabulate
+needed for the API/CLI):
+
+```bash
+python -m pip install -r requirements-ms2topo.txt
+```
+
+```python
+from Functions.ms2topo import annotate_ms2topo_features
+
+result = annotate_ms2topo_features(
+    features_table = "examples/ms2topo/ms2Topo_Features_table-0.csv",
+    consensus_spectra_folder = "examples/ms2topo/Alignedms2Features2026-05-20",
+    feat_ids = [0, 1],
+    precursor_ci_ppm = 10.0,
+    top_n = 10,
+)
+annotations = result["annotations"]
+diagnostics = result["diagnostics"]
+converted_spectrum = result["spectrum_peaks"]["0"]
+```
+
+The feature table can be a DataFrame, CSV, or XLSX (XLSX needs `openpyxl`).
+Precursor m/z is read from its `median_mz(Da)` column. `feat_id` maps each row
+to `Consensus_ms2-spectra_{feat_id}.csv`; an ID such as `0.0` matches `0.csv`'s
+consensus counterpart. Omit `feat_ids` to process all rows when all consensus
+files are present. **The bundled subset has consensus spectra 0 and 1 only.**
+
+For one consensus spectrum, supply the measured precursor m/z explicitly:
+
+```python
+from Functions.ms2topo import annotate_ms2topo_consensus_spectrum
+
+result = annotate_ms2topo_consensus_spectrum(
+    consensus_df = "examples/ms2topo/Alignedms2Features2026-05-20/Consensus_ms2-spectra_0.csv",
+    precursor_mz = 245.0781752822625,
+    feat_id = "0",
+    top_n = 10,
+)
+```
+
+The command line writes `annotations.csv`, `diagnostics.csv`, and converted
+peak tables into the output directory:
+
+```bash
+python annotate_ms2topo.py --features examples/ms2topo/ms2Topo_Features_table-0.csv --spectra-folder examples/ms2topo/Alignedms2Features2026-05-20 --feat-ids 0 1 --output annotation_results
+```
+
+| ms2Topo field | OrbiFragsNets interpretation |
+|---|---|
+| `median_mz(Da)` | Measured fragment m/z |
+| `median_Int` | Fragment signal; nonpositive/nonfinite values removed |
+| `N_spectra` | Count used by Welch; missing/counts below 2 use 2 |
+| `IQR_mz(ppm)` | Mass-tolerance/spread proxy |
+
+If ppm IQR is absent, `IQR_mz(Da)` is converted to ppm. Missing/invalid IQR
+uses `fallback_ci_ppm=10`. Formula-search tolerances use IQR in ppm bounded by
+`min_ci_ppm=10` and `max_ci_ppm=30` (Python `max_ci_ppm=None` removes the upper
+bound). Standard deviations approximate IQR/1.349, with the lower floor to
+avoid zero-variance Welch calculations. Original statistics remain in the
+converted peak table.
+
+**These are consensus-derived proxies, not confidence intervals from raw
+Orbitrap profile data.** The original Welch-based edge calculation uses the
+converted spread and counts; validate these settings for your data. The
+existing engine's singly charged positive-ion mass convention and valence
+constraints remain. There is no neutral-mass, adduct, or negative-ion
+conversion in this input adapter.
+
+Peaks above precursor m/z plus tolerance are removed before selecting the
+strongest 10 usable peaks. Use Python `top_n=None` or CLI `--top-n 0` to keep
+all. `intensity_col="mean_Int"` (CLI `--intensity-col mean_Int`) explicitly
+selects mean instead of median intensity. Intensities are renormalized to
+sum to 100 after selection, so `MinIntExplained` applies to the selected
+spectrum. Diagnostics report how much usable product-ion intensity was
+retained. `max_networks=100000` (CLI `--max-networks`) limits peak-subset and
+formula-network enumeration per precursor candidate; exceeding it raises a
+clear error. Reduce peak count, tolerances, or atomic bounds if necessary.
+
+Expected no-result cases produce empty annotations and a diagnostic status
+(`too_few_fragments` or `no_annotation_found`). Input and engine errors raise
+by default. Batch `on_error="record"` (CLI `--continue-on-error`) records
+errors and continues; the CLI exits with status 1 if any feature failed.
+Parameter files are resolved relative to this checkout, so the API also
+works from other working directories once the repository is importable.
+
+Run the tests with `python -m pip install pytest` then `python -m pytest -q`.
+The original raw-data workflow follows below.
+
 ### 1. Convert raw data to .mzML
 
 Use ProteoWizard msConvert to convert your raw instrument file. 
